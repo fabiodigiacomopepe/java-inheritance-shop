@@ -7,6 +7,39 @@ public class Carrello {
         // Inizializzo lo scanner da tastiera
         Scanner scan = new Scanner(System.in);
 
+        // Chiedo se utente ha carta fedeltà
+        boolean userCard = false;
+        System.out.println("Si possiede una carta fedeltà?");
+        System.out.println("1 - Sì");
+        System.out.println("2 - No");
+        System.out.print("Seleziona un numero: ");
+        String stringCarta = scan.nextLine();
+        int booleanCarta = Integer.parseInt(stringCarta);
+
+        // Inizializzo exitCarta a false
+        boolean exitCarta = false;
+        // Creo ciclo finchè exitCarta non diventa true
+        while (!exitCarta) {
+            // Se è stato inserito un numero compreso fra 1 e 2, setto exitCarta a true
+            if ((booleanCarta > 0) && (booleanCarta < 3)) {
+                exitCarta = true;
+            } // Altrimenti chiedo di nuovo
+            else {
+                System.out.println("Inserisci un numero valido.");
+                System.out.print("Seleziona un numero: ");
+                stringCarta = scan.nextLine();
+                booleanCarta = Integer.parseInt(stringCarta);
+            }
+        }
+
+        // Se numero utente ha carta fedeltà
+        if (booleanCarta == 1) {
+            userCard = true;
+        } // Altrimenti
+        else if (booleanCarta == 2) {
+            userCard = false;
+        }
+
         System.out.println("Quanti elementi vuoi aggiungere?");
         System.out.print("Inserisci un numero: ");
         String productNumberString = scan.nextLine();
@@ -87,9 +120,21 @@ public class Carrello {
                 System.out.print("Inserisci taglio memoria (GB): ");
                 String stringMemoria = scan.nextLine();
                 int productMemoria = Integer.parseInt(stringMemoria);
+                double prezzoFinale = productPrezzo;
+
+                if (userCard) {
+                    prezzoFinale = 0;
+                    if (productMemoria < 32) {
+                        double sconto = (productPrezzo / 100) * 5;
+                        prezzoFinale = productPrezzo - sconto;
+                    } else {
+                        double sconto = (productPrezzo / 100) * 2;
+                        prezzoFinale = productPrezzo - sconto;
+                    }
+                }
 
                 // Creo un nuovo oggetto smartphone
-                Smartphone smartphone = new Smartphone(productNome, productDescrizione, productPrezzo, productIva, productImei, productMemoria);
+                Smartphone smartphone = new Smartphone(productNome, productDescrizione, prezzoFinale, productIva, productImei, productMemoria);
                 prodotti[i] = smartphone;
             }  // Se tipo di prodotto è uguale a 2, allora TELEVISORE
             else if (productTipo == 2) {
@@ -133,8 +178,21 @@ public class Carrello {
                 else if (booleanSmart == 2) {
                     productSmart = false;
                 }
+
+                double prezzoFinale = productPrezzo;
+                if (userCard) {
+                    prezzoFinale = 0;
+                    if (!productSmart) {
+                        double sconto = (productPrezzo / 100) * 10;
+                        prezzoFinale = productPrezzo - sconto;
+                    } else {
+                        double sconto = (productPrezzo / 100) * 2;
+                        prezzoFinale = productPrezzo - sconto;
+                    }
+                }
+
                 // Creo un nuovo oggetto televisore
-                Televisore televisore = new Televisore(productNome, productDescrizione, productPrezzo, productIva, productAltezza, productLarghezza, productSmart);
+                Televisore televisore = new Televisore(productNome, productDescrizione, prezzoFinale, productIva, productAltezza, productLarghezza, productSmart);
                 prodotti[i] = televisore;
             }  // Se tipo di prodotto è uguale a 3, allora CUFFIA
             else if (productTipo == 3) {
@@ -170,8 +228,21 @@ public class Carrello {
                 else if (booleanWireless == 2) {
                     productWireless = false;
                 }
+
+                double prezzoFinale = productPrezzo;
+                if (userCard) {
+                    prezzoFinale = 0;
+                    if (!productWireless) {
+                        double sconto = (productPrezzo / 100) * 7;
+                        prezzoFinale = productPrezzo - sconto;
+                    } else {
+                        double sconto = (productPrezzo / 100) * 2;
+                        prezzoFinale = productPrezzo - sconto;
+                    }
+                }
+
                 // Creo un nuovo oggetto cuffia
-                Cuffia cuffia = new Cuffia(productNome, productDescrizione, productPrezzo, productIva, productColore, productWireless);
+                Cuffia cuffia = new Cuffia(productNome, productDescrizione, prezzoFinale, productIva, productColore, productWireless);
                 prodotti[i] = cuffia;
             }
         }
